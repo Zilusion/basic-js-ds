@@ -1,6 +1,6 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
-// const { ListNode } = require('../extensions/list-node.js');
+const { ListNode } = require('../extensions/list-node.js');
 
 /**
  * Implement the Queue with a given interface via linked list (use ListNode extension above).
@@ -13,24 +13,45 @@ const { NotImplementedError } = require('../extensions/index.js');
  * queue.dequeue(); // returns the top element from queue and deletes it, returns 1
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
-class Queue {
 
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+class Queue {
+  constructor() {
+    this.head = null; // Указатель на первый элемент (голова очереди)
+    this.tail = null; // Указатель на последний элемент (хвост очереди)
   }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  getUnderlyingList() {
+    return this.head; // Возвращаем текущую голову очереди
+  }
+
+  enqueue(value) {
+    const newNode = new ListNode(value); // Создаем новый узел
+
+    if (this.tail) {
+      this.tail.next = newNode; // Связываем текущий хвост с новым узлом
+    }
+    this.tail = newNode; // Обновляем указатель на хвост
+
+    if (!this.head) {
+      this.head = newNode; // Если очередь была пуста, обновляем голову
+    }
   }
 
   dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    if (!this.head) return null; // Если очередь пуста, возвращаем null
+
+    const removedValue = this.head.value; // Сохраняем значение для возврата
+    this.head = this.head.next; // Сдвигаем указатель головы
+
+    if (!this.head) {
+      this.tail = null; // Если очередь опустела, сбрасываем указатель хвоста
+    }
+
+    return removedValue; // Возвращаем удаленное значение
   }
 }
 
 module.exports = {
-  Queue
+  Queue,
 };
+
